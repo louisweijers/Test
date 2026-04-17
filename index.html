@@ -356,8 +356,7 @@ function go(n) {
   document.getElementById('sc-label').textContent = STAP_LABELS[idx] || 'Refit Check';
   window.scrollTo(0, 0);
 
-  // TRACKING: stuur elke stap als event naar n8n (kleine payload, geen foto)
-  trackEvent('step_view', { stap: stap, stap_naam: STAP_LABELS[idx] || STEPS[idx] });
+  // Tracking alleen bij lead_submit en contact_request — niet bij elke stap
 }
 
 // ============================================================
@@ -387,7 +386,6 @@ function sel(btn, key, val, next) {
   btn.closest('.og').querySelectorAll('.ob').forEach(function(b){ b.classList.remove('sel'); });
   btn.classList.add('sel');
   st[key] = val;
-  trackEvent('answer', { vraag: key, antwoord: val });
   setTimeout(function(){ go(next); }, 220);
 }
 
@@ -543,8 +541,8 @@ function showResult() {
   document.getElementById('spec-list').innerHTML = html;
   document.getElementById('total-price').textContent = prijs.label;
 
-  // WEBHOOK: lead submit event
-  trackEvent('lead_submit', {
+  // WEBHOOK 1: prijs berekend — sla lead op (nog geen mail)
+  trackEvent('prijs_berekend', {
     voornaam: st.voornaam,
     email: st.email,
     telefoon: st.telefoon || '-',
@@ -557,7 +555,8 @@ function showResult() {
     foto_opgeslagen: st.photoUploaded ? 'ja' : 'nee',
     totaal_indicatie: st.totaal_indicatie,
     nieuwsbrief: st.nieuwsbrief ? 'ja' : 'nee',
-    bron: st.bron
+    bron: st.bron,
+    timestamp: new Date().toISOString()
   });
 }
 
@@ -576,8 +575,15 @@ function requestContact() {
     telefoon: st.telefoon || '-',
     boot_type: st.type,
     boot_naam: st.bootname || '-',
+    boot_leeftijd: st.leeftijd,
+    boot_lengte: st.lengte,
+    werkzaamheden: st.selectedItems.map(function(i){ return i.name; }).join(', '),
+    foto_naam: st.photoName || '-',
+    foto_opgeslagen: st.photoUploaded ? 'ja' : 'nee',
     totaal_indicatie: st.totaal_indicatie,
-    bron: st.bron
+    nieuwsbrief: st.nieuwsbrief ? 'ja' : 'nee',
+    bron: st.bron,
+    timestamp: new Date().toISOString()
   });
 }
 
