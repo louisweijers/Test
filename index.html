@@ -314,7 +314,7 @@ textarea.f:focus{border-color:var(--rood)}
 var st = {
   type:'', bootname:'', leeftijd:'', lengte:'',
   selectedItems:[],
-  photoData:null, photoName:'', photoUploaded:false,
+  photoData:null, photoName:'', photoUploaded:false, photoUrl:'',
   voornaam:'', email:'', telefoon:'', nieuwsbrief:false,
   totaal_indicatie:'', contact_verzoek:'NEE',
   session_id:'', bron:'MBS Sneek 2025'
@@ -324,10 +324,12 @@ var st = {
 st.session_id = 'mbs-' + Date.now() + '-' + Math.random().toString(36).slice(2,7);
 
 // ============================================================
-// WEBHOOK URLS
+// CONFIGURATIE
 // ============================================================
 var WEBHOOK_LEAD = 'https://n8n-aqs.vimdesk.io/webhook/164b60d5-48a0-4f2f-8202-4a47e4fd2bef';
-var WEBHOOK_FOTO = 'https://n8n-aqs.vimdesk.io/webhook/164b60d5-48a0-4f2f-8202-4a47e4fd2bef'; // zelfde endpoint, apart event
+var SUPABASE_URL = 'https://heefuksdjeunqwgqdcoj.supabase.co';
+var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlZWZ1a3NkamV1bnF3Z3FkY29qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjE4ODYsImV4cCI6MjA5MDc5Nzg4Nn0.sfOw0ceENEBGVyLivbPWbZxvJtUu2axrVUAWM78f8S4';
+var SUPABASE_BUCKET = 'refit-fotos';
 
 // ============================================================
 // NAVIGATIE
@@ -442,45 +444,44 @@ function handleFile(inp) {
 function uploadFoto(base64data, filename, filesize) {
   document.getElementById('uploading-msg').style.display = 'block';
 
-  // Comprimeer grote foto's door canvas resize
   var img = new Image();
   img.onload = function() {
     var maxW = 1200, maxH = 900;
     var w = img.width, h = img.height;
     if (w > maxW || h > maxH) {
       var ratio = Math.min(maxW/w, maxH/h);
-      w = Math.round(w * ratio);
-      h = Math.round(h * ratio);
+      w = Math.round(w * ratio); h = Math.round(h * ratio);
     }
     var canvas = document.createElement('canvas');
     canvas.width = w; canvas.height = h;
-    var ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, w, h);
-    var compressed = canvas.toDataURL('image/jpeg', 0.80);
+    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
 
-    // Stuur naar n8n
-    fetch(WEBHOOK_FOTO, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        event: 'foto_upload',
-        session_id: st.session_id,
-        bron: st.bron,
-        timestamp: new Date().toISOString(),
-        foto_naam: filename,
-        foto_origineel_kb: Math.round(filesize / 1024),
-        foto_base64: compressed  // gecomprimeerde JPEG
-      })
-    }).then(function(r) {
-      document.getElementById('uploading-msg').style.display = 'none';
-      if (r.ok) {
-        st.photoUploaded = true;
-        document.getElementById('foto-status').textContent = '\u2713 Foto opgeslagen';
-      }
-    }).catch(function() {
-      document.getElementById('uploading-msg').style.display = 'none';
-      document.getElementById('foto-status').textContent = '\u26a0 Upload mislukt \u2014 we gaan door zonder foto';
-    });
+    canvas.toBlob(function(blob) {
+      var storageNaam = st.session_id + '.jpg';
+
+      // Direct naar Supabase Storage
+      fetch(SUPABASE_URL + '/storage/v1/object/' + SUPABASE_BUCKET + '/' + storageNaam, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + SUPABASE_KEY,
+          'Content-Type': 'image/jpeg',
+          'x-upsert': 'true'
+        },
+        body: blob
+      }).then(function(r) {
+        document.getElementById('uploading-msg').style.display = 'none';
+        if (r.ok) {
+          st.photoUploaded = true;
+          st.photoUrl = SUPABASE_URL + '/storage/v1/object/public/' + SUPABASE_BUCKET + '/' + storageNaam;
+          document.getElementById('foto-status').textContent = '✓ Foto opgeslagen';
+        } else {
+          document.getElementById('foto-status').textContent = '⚠ Upload mislukt — we gaan door';
+        }
+      }).catch(function() {
+        document.getElementById('uploading-msg').style.display = 'none';
+        document.getElementById('foto-status').textContent = '⚠ Upload mislukt — we gaan door';
+      });
+    }, 'image/jpeg', 0.82);
   };
   img.src = base64data;
 }
@@ -525,8 +526,29 @@ function showResult() {
   var prijs = calcPrijs();
   st.totaal_indicatie = prijs.label;
 
-  // Resultaat pagina tonen (index 12 = positie 12 in 1-based = STEPS[11])
+  // Resultaat pagina tonen
   go(12);
+
+  // Supabase: sla lead op
+  saveLead();
+
+  // WEBHOOK 1: prijs_berekend — voor telling in n8n executions
+  trackEvent('prijs_berekend', {
+    voornaam: st.voornaam,
+    email: st.email,
+    telefoon: st.telefoon || '-',
+    boot_type: st.type,
+    boot_naam: st.bootname || '-',
+    boot_leeftijd: st.leeftijd,
+    boot_lengte: st.lengte,
+    werkzaamheden: st.selectedItems.map(function(i){ return i.name; }).join(', '),
+    foto_naam: st.photoName || '-',
+    foto_opgeslagen: st.photoUploaded ? 'ja' : 'nee',
+    totaal_indicatie: st.totaal_indicatie,
+    nieuwsbrief: st.nieuwsbrief ? 'ja' : 'nee',
+    bron: st.bron,
+    timestamp: new Date().toISOString()
+  });
 
   // Bootnaam in resultaat
   var bn = st.bootname || (st.type || 'uw boot');
@@ -541,8 +563,22 @@ function showResult() {
   document.getElementById('spec-list').innerHTML = html;
   document.getElementById('total-price').textContent = prijs.label;
 
-  // WEBHOOK 1: prijs berekend — sla lead op (nog geen mail)
-  trackEvent('prijs_berekend', {
+
+}
+
+// ============================================================
+// CONTACT VERZOEK
+// ============================================================
+function requestContact() {
+  st.contact_verzoek = 'JA';
+  document.getElementById('btn-contact').style.display = 'none';
+  document.getElementById('bevestiging').style.display = 'block';
+
+  // Supabase: update wil_gesprek naar true
+  updateLead();
+
+  // WEBHOOK: contact_request — voor telling in n8n executions
+  trackEvent('contact_request', {
     voornaam: st.voornaam,
     email: st.email,
     telefoon: st.telefoon || '-',
@@ -561,29 +597,55 @@ function showResult() {
 }
 
 // ============================================================
-// CONTACT VERZOEK
+// SUPABASE FUNCTIES
 // ============================================================
-function requestContact() {
-  st.contact_verzoek = 'JA';
-  document.getElementById('btn-contact').style.display = 'none';
-  document.getElementById('bevestiging').style.display = 'block';
+function saveLead() {
+  fetch(SUPABASE_URL + '/rest/v1/refit_leads', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({
+      session_id: st.session_id,
+      voornaam: st.voornaam,
+      email: st.email,
+      telefoon: st.telefoon || null,
+      boot_type: st.type,
+      boot_naam: st.bootname || null,
+      boot_leeftijd: st.leeftijd,
+      boot_lengte: st.lengte,
+      werkzaamheden: st.selectedItems.map(function(i){ return i.name; }).join(', '),
+      totaal_indicatie: st.totaal_indicatie,
+      nieuwsbrief: st.nieuwsbrief,
+      foto_naam: st.photoName || null,
+      foto_url: st.photoUrl || null,
+      wil_gesprek: false,
+      bron: st.bron
+    })
+  }).then(function(r) {
+    console.log(r.ok ? 'Lead opgeslagen in Supabase' : 'Supabase fout: ' + r.status);
+  }).catch(function(e) {
+    console.log('Supabase fout:', e);
+  });
+}
 
-  // WEBHOOK: contact_request event — apart van lead_submit
-  trackEvent('contact_request', {
-    voornaam: st.voornaam,
-    email: st.email,
-    telefoon: st.telefoon || '-',
-    boot_type: st.type,
-    boot_naam: st.bootname || '-',
-    boot_leeftijd: st.leeftijd,
-    boot_lengte: st.lengte,
-    werkzaamheden: st.selectedItems.map(function(i){ return i.name; }).join(', '),
-    foto_naam: st.photoName || '-',
-    foto_opgeslagen: st.photoUploaded ? 'ja' : 'nee',
-    totaal_indicatie: st.totaal_indicatie,
-    nieuwsbrief: st.nieuwsbrief ? 'ja' : 'nee',
-    bron: st.bron,
-    timestamp: new Date().toISOString()
+function updateLead() {
+  fetch(SUPABASE_URL + '/rest/v1/refit_leads?session_id=eq.' + st.session_id, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({ wil_gesprek: true })
+  }).then(function(r) {
+    console.log(r.ok ? 'Lead bijgewerkt in Supabase' : 'Supabase update fout: ' + r.status);
+  }).catch(function(e) {
+    console.log('Supabase update fout:', e);
   });
 }
 
