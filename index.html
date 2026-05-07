@@ -1,414 +1,493 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Refit Check — Aquaservice</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Beste Kapitein — Aquaservice Sleepbootdagen</title>
+<link href="https://fonts.googleapis.com/css2?family=Maven+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{
-  --rood:#df1812;--rood-d:#b01a0a;--rood-l:#fde8e8;
-  --navy:#192a67;--blauw:#3d457e;--blauw-l:#eef0f8;
-  --grijs:#e6e7e6;--wit:#ffffff;--tekst:#192a67;--mu:#3d457e;--fa:#8a90b0;
-  --schaduw:rgba(0,0,0,0.10);--schaduw-h:rgba(0,0,0,0.18);
-  --r:16px;--rs:8px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--grijs);color:var(--tekst);padding-bottom:40px}
-
-.header{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;min-height:64px}
-.logo-text{color:#fff;font-family:'DM Serif Display',serif;font-size:20px;letter-spacing:0.3px}
-
-.prog-wrap{background:var(--navy);padding:0 20px 15px}
-.prog-track{height:4px;background:rgba(255,255,255,0.15);border-radius:4px}
-.prog-fill{height:4px;background:var(--rood);border-radius:4px;transition:width .5s ease;width:0%}
-
-.container{max-width:500px;margin:0 auto;padding:25px 16px}
-.step{display:none}.step.active{display:block;animation:rise .4s ease-out}
-@keyframes rise{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-
-.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rood);margin-bottom:8px}
-h1{font-family:'DM Serif Display',serif;font-size:28px;line-height:1.2;color:var(--navy);margin-bottom:12px}
-
-.q-img{width:100%;height:240px;object-fit:cover;border-radius:var(--r);margin-bottom:15px;box-shadow:var(--schaduw)}
-
-.rv-box{background:rgba(25,42,103,0.05);padding:15px;border-radius:12px;margin-bottom:20px;border-left:3px solid var(--rood)}
-.rv-text{font-size:14px;font-style:italic;color:var(--mu);line-height:1.5}
-.rv-auth{font-size:12px;font-weight:700;margin-top:8px;color:var(--navy);display:block}
-
-.og{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px}
-.ob{background:var(--wit);border:1px solid var(--schaduw);border-radius:var(--r);padding:16px;cursor:pointer;text-align:left;color:var(--tekst);transition:all .2s;font-size:15px;font-weight:500;display:flex;align-items:center;gap:12px;font-family:'DM Sans',sans-serif}
-.ob.sel{border:2px solid var(--rood);background:var(--rood-l);color:var(--rood-d)}
-
-.btn{background:var(--rood);color:#fff;border:none;border-radius:var(--rs);padding:18px;font-size:16px;font-weight:600;cursor:pointer;width:100%;transition:background .2s;font-family:'DM Sans',sans-serif}
-.btn:hover{background:var(--rood-d)}
-.btn:disabled{background:#ccd1d9;cursor:not-allowed}
-.btn-back{background:none;border:none;font-size:13px;color:var(--fa);cursor:pointer;margin-bottom:15px;font-family:'DM Sans',sans-serif}
-
-input.f{width:100%;padding:14px;border:2px solid var(--blauw-l);border-radius:var(--rs);font-size:15px;margin-bottom:10px;outline:none;font-family:inherit;color:var(--tekst)}
-
-.foto-drop{border:2px dashed var(--fa);border-radius:var(--r);padding:28px;text-align:center;cursor:pointer;background:var(--wit);margin-bottom:12px;transition:all .2s;font-size:15px;font-weight:500;color:var(--mu)}
-.foto-drop:hover{border-color:var(--rood);background:var(--rood-l)}
-.foto-drop.has-p{padding:6px;border-color:var(--rood);background:var(--rood-l)}
-.foto-prev{width:100%;max-height:200px;object-fit:cover;border-radius:10px;display:none}
-.foto-status{font-size:12px;font-weight:600;text-align:center;margin-top:8px;color:var(--rood-d);display:none}
-.foto-uploading{font-size:12px;text-align:center;margin-top:8px;color:var(--blauw);display:none}
-
-.prijs-kaart{background:var(--wit);border:1px solid var(--schaduw);border-radius:var(--r);padding:20px;margin-bottom:15px}
-.spec-item{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--blauw-l);font-size:13px;align-items:center}
-.spec-range{font-weight:600;color:var(--navy);text-align:right}
-.spec-totaal{display:flex;justify-content:space-between;padding:15px 0;font-weight:700;font-size:18px;color:var(--navy);border-top:2px solid var(--navy);margin-top:10px}
-.disclaimer{font-size:11px;color:var(--fa);line-height:1.5;margin-bottom:20px;padding:12px;background:#f9f9f9;border-radius:8px;border:1px solid var(--grijs)}
-.bevestiging{display:none;background:var(--blauw-l);color:var(--navy);padding:15px;border-radius:var(--rs);font-weight:600;text-align:center;margin-top:10px;font-size:14px}
+:root{--navy:#192a67;--navy-d:#0f1a42;--navy-l:#3d457e;--red:#df1812;--red-d:#b01a0a;--gold:#f0b429;--gold-d:#c8960a;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:"Maven Pro",sans-serif;background:var(--navy-d);min-height:100vh;color:#fff;overflow-x:hidden;}
+.water-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#0a1030 0%,#192a67 70%,#1a3a70 100%);}
+.water-bg::before{content:"";position:absolute;bottom:0;left:-50%;width:200%;height:180px;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 1440 120%27%3E%3Cpath fill=%27%23192a67%27 fill-opacity=%270.6%27 d=%27M0,60 C240,100 480,20 720,60 C960,100 1200,20 1440,60 L1440,120 L0,120 Z%27/%3E%3C/svg%3E") repeat-x;animation:wave 7s linear infinite;}
+.water-bg::after{content:"";position:absolute;bottom:0;left:-50%;width:200%;height:130px;background:url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 1440 100%27%3E%3Cpath fill=%27%233d457e%27 fill-opacity=%270.5%27 d=%27M0,40 C360,80 720,0 1080,40 C1260,60 1350,30 1440,40 L1440,100 L0,100 Z%27/%3E%3C/svg%3E") repeat-x;animation:wave 10s linear infinite reverse;}
+@keyframes wave{from{transform:translateX(0)}to{transform:translateX(50%)}}
+#app{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:20px 16px 80px;}
+.header{width:100%;max-width:640px;display:flex;align-items:center;justify-content:space-between;padding:0 0 18px;}
+.logo-text{font-size:22px;font-weight:900;letter-spacing:-0.5px;}
+.logo-text span{color:var(--red);}
+.event-badge{background:var(--red);color:#fff;font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px;letter-spacing:.5px;text-transform:uppercase;}
+.card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:28px 24px;width:100%;max-width:640px;backdrop-filter:blur(14px);box-shadow:0 12px 40px rgba(0,0,0,.35);}
+.screen{display:none;}.screen.active{display:block;animation:fadeUp .4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.ship-icon{font-size:68px;text-align:center;margin-bottom:6px;animation:rock 3s ease-in-out infinite;}
+@keyframes rock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.welcome-title{font-size:25px;font-weight:900;text-align:center;line-height:1.25;margin-bottom:8px;}
+.welcome-title .hi{color:var(--gold);}
+.welcome-sub{text-align:center;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:20px;line-height:1.55;}
+.prize-box{background:linear-gradient(135deg,#f0b429 0%,#c8960a 100%);border-radius:13px;padding:15px 17px;margin-bottom:18px;display:flex;align-items:center;gap:13px;}
+.prize-icon{font-size:28px;flex-shrink:0;}
+.prize-label{font-size:10px;font-weight:700;text-transform:uppercase;color:rgba(0,0,0,.5);letter-spacing:1px;}
+.prize-val{font-size:16px;font-weight:900;color:var(--navy-d);line-height:1.25;}
+.prize-sub{font-size:12px;color:rgba(0,0,0,.55);margin-top:2px;}
+.rules{background:rgba(255,255,255,.06);border-radius:10px;padding:12px 15px;margin-bottom:18px;font-size:13px;color:rgba(255,255,255,.7);line-height:1.65;}
+.rules li{margin-left:15px;margin-bottom:3px;}
+.field{margin-bottom:13px;}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:rgba(255,255,255,.52);margin-bottom:5px;}
+.field input{width:100%;background:rgba(255,255,255,.09);border:1.5px solid rgba(255,255,255,.18);border-radius:10px;padding:12px 14px;font-family:"Maven Pro",sans-serif;font-size:16px;font-weight:500;color:#fff;outline:none;transition:border-color .2s;}
+.field input::placeholder{color:rgba(255,255,255,.3);}
+.field input:focus{border-color:var(--gold);}
+.field input.error{border-color:var(--red);}
+.check-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:13px;cursor:pointer;}
+.check-row input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--red);cursor:pointer;flex-shrink:0;}
+.check-row span{font-size:13px;color:rgba(255,255,255,.68);line-height:1.5;}
+.err-msg{color:#ff7070;font-size:12px;margin-top:5px;display:none;}
+.err-msg.show{display:block;}
+.btn{display:block;width:100%;background:var(--red);color:#fff;border:none;border-radius:12px;padding:14px;font-family:"Maven Pro",sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:background .18s,transform .1s;text-align:center;}
+.btn:hover{background:var(--red-d);}
+.btn:active{transform:scale(.98);}
+.btn.gold{background:var(--gold);color:var(--navy-d);}
+.btn.gold:hover{background:var(--gold-d);}
+.btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.2);font-size:14px;padding:11px;margin-top:9px;}
+.btn.ghost:hover{border-color:rgba(255,255,255,.45);}
+.progress-bar-wrap{background:rgba(255,255,255,.1);border-radius:99px;height:5px;margin-bottom:16px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:var(--red);border-radius:99px;transition:width .4s ease;}
+.q-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;}
+.q-num{font-size:11px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.48);letter-spacing:1px;}
+.timer-badge{background:rgba(255,255,255,.1);border-radius:20px;padding:4px 12px;font-size:14px;font-weight:700;display:flex;align-items:center;gap:5px;}
+.timer-badge.danger{background:rgba(223,24,18,.3);color:#ff9090;}
+.q-emoji{font-size:44px;text-align:center;margin-bottom:9px;}
+.q-text{font-size:18px;font-weight:800;line-height:1.35;margin-bottom:20px;text-align:center;}
+.answers{display:flex;flex-direction:column;gap:8px;}
+.ans-btn{background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.13);border-radius:11px;padding:12px 15px;color:#fff;font-family:"Maven Pro",sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:10px;}
+.ans-btn:hover:not(:disabled){background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.3);transform:translateX(3px);}
+.ans-btn.correct{background:rgba(34,197,94,.18);border-color:#22c55e;color:#86efac;}
+.ans-btn.wrong{background:rgba(223,24,18,.16);border-color:var(--red);color:#fca5a5;}
+.ans-btn:disabled{cursor:default;}
+.ans-letter{background:rgba(255,255,255,.14);border-radius:6px;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.feedback{margin-top:13px;padding:12px 14px;border-radius:10px;font-size:13px;font-weight:600;line-height:1.5;display:none;}
+.feedback.show{display:block;}
+.feedback.correct{background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.35);}
+.feedback.wrong{background:rgba(223,24,18,.12);border:1px solid rgba(223,24,18,.3);}
+.next-btn-wrap{margin-top:13px;}
+.result-trophy{font-size:72px;text-align:center;margin-bottom:9px;}
+.result-rank{text-align:center;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gold);margin-bottom:5px;}
+.result-name{text-align:center;font-size:24px;font-weight:900;margin-bottom:17px;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:18px;}
+.score-cell{background:rgba(255,255,255,.07);border-radius:10px;padding:13px 8px;text-align:center;}
+.score-cell .val{font-size:23px;font-weight:900;color:var(--gold);display:block;}
+.score-cell .lbl{font-size:10px;color:rgba(255,255,255,.48);text-transform:uppercase;letter-spacing:.5px;margin-top:3px;}
+.nl-box{background:linear-gradient(135deg,rgba(223,24,18,.18) 0%,rgba(25,42,103,.25) 100%);border:1px solid rgba(223,24,18,.3);border-radius:12px;padding:16px 17px;margin-bottom:16px;}
+.nl-box h3{font-size:15px;font-weight:800;margin-bottom:5px;}
+.nl-box p{font-size:13px;color:rgba(255,255,255,.66);margin-bottom:11px;line-height:1.5;}
+.sb-title{font-size:23px;font-weight:900;text-align:center;margin-bottom:3px;}
+.sb-sub{font-size:12px;color:rgba(255,255,255,.45);text-align:center;margin-bottom:18px;}
+.tab-row{display:flex;gap:7px;margin-bottom:18px;}
+.tab{flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);color:rgba(255,255,255,.55);border-radius:10px;padding:9px;font-family:"Maven Pro",sans-serif;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;}
+.tab.active{background:rgba(223,24,18,.2);border-color:var(--red);color:#fff;}
+.sb-row{display:flex;align-items:center;gap:11px;padding:10px 13px;border-radius:10px;margin-bottom:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);}
+.sb-row.highlight{background:rgba(240,180,41,.1);border-color:rgba(240,180,41,.25);}
+.sb-rank{font-size:16px;font-weight:900;width:28px;text-align:center;flex-shrink:0;}
+.sb-rank.gold{color:var(--gold);}
+.sb-rank.silver{color:#c0c0c0;}
+.sb-rank.bronze{color:#cd7f32;}
+.sb-name{flex:1;font-size:14px;font-weight:700;}
+.sb-score-wrap{text-align:right;}
+.sb-score{font-size:15px;font-weight:900;color:var(--gold);}
+.sb-time{font-size:11px;color:rgba(255,255,255,.4);}
+.sb-empty{text-align:center;padding:28px;color:rgba(255,255,255,.36);font-size:14px;}
+.loading-dots::after{content:"...";animation:dots 1s steps(3) infinite;}
+@keyframes dots{0%{content:"."}33%{content:".."}66%{content:"..."}}
+.confirm-icon{font-size:58px;text-align:center;margin-bottom:9px;}
+.confirm-title{font-size:23px;font-weight:900;text-align:center;margin-bottom:7px;}
+.confirm-text{font-size:13px;color:rgba(255,255,255,.65);text-align:center;line-height:1.6;margin-bottom:20px;}
+.spinner{width:26px;height:26px;border:3px solid rgba(255,255,255,.18);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 13px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);border:1px solid rgba(255,255,255,.2);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:600;transition:transform .3s ease;z-index:999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4);}
+#toast.show{transform:translateX(-50%) translateY(0);}
+@media(max-width:480px){.card{padding:20px 14px;}.q-text{font-size:15px;}.welcome-title{font-size:20px;}.score-cell .val{font-size:19px;}}
 </style>
 </head>
 <body>
+<div class="water-bg"></div>
+<div id="app">
+  <div class="header">
+    <div class="logo-text"><span>Aqua</span>service</div>
+    <div class="event-badge">&#9875; Sleepbootdagen</div>
+  </div>
 
-<div class="header">
-  <div class="logo-text">Aquaservice Refit</div>
-  <a href="tel:+31850239550" style="font-size:12px;color:#9ba8d4;text-decoration:none">085 023 95 50</a>
+  <!-- WELKOM -->
+  <div class="card screen active" id="screen-welcome">
+    <div class="ship-icon">&#128674;</div>
+    <div class="welcome-title">Ben jij de <span class="hi">Beste Kapitein</span> van de Sleepbootdagen?</div>
+    <div class="welcome-sub">Bewijs je vaarbewijs-kennis in 7 vragen en strijd voor de titel van Admiraal!</div>
+    <div class="prize-box">
+      <div class="prize-icon">&#127942;</div>
+      <div>
+        <div class="prize-label">Te winnen prijs</div>
+        <div class="prize-val">Watersport voucher t.w.v. &#8364;[BEDRAG INVULLEN]</div>
+        <div class="prize-sub">De snelste kapitein met de meeste punten wint!</div>
+      </div>
+    </div>
+    <ul class="rules">
+      <li>7 ludieke vragen over het vaarbewijs &amp; de vaart</li>
+      <li>Hoe sneller je antwoordt, hoe meer punten je scoort</li>
+      <li>Per e-mailadres slechts 1 deelname mogelijk</li>
+      <li>Winnaar wordt na de Sleepbootdagen bekendgemaakt</li>
+    </ul>
+    <div class="field">
+      <label>Jouw kapiteinnaam &#127894;</label>
+      <input type="text" id="inp-captain" placeholder="Bv. Kapitein Janssen" maxlength="30">
+    </div>
+    <div class="field">
+      <label>E-mailadres</label>
+      <input type="email" id="inp-email" placeholder="jouw@email.nl">
+      <div class="err-msg" id="err-email">Vul een geldig e-mailadres in</div>
+    </div>
+    <label class="check-row">
+      <input type="checkbox" id="chk-nl">
+      <span>Ja, ik wil de Aquaservice nieuwsbrief ontvangen met tips, aanbiedingen en watersportnieuws &#128692;</span>
+    </label>
+    <label class="check-row">
+      <input type="checkbox" id="chk-terms">
+      <span>Ik ga akkoord met de actievoorwaarden en begrijp dat mijn e-mailadres wordt gebruikt voor deelnameverificatie</span>
+    </label>
+    <div class="err-msg" id="err-terms">Akkoord gaan is verplicht om deel te nemen</div>
+    <button class="btn" style="margin-top:6px" onclick="startQuiz()">Ankers los! &#9875; Start de quiz</button>
+    <button class="btn ghost" onclick="showScreen('screen-scoreboard');loadScoreboard()">&#128202; Bekijk het scorebord</button>
+  </div>
+
+  <!-- VRAAG -->
+  <div class="card screen" id="screen-question">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
+    <div class="q-meta">
+      <div class="q-num" id="q-num-label">Vraag 1 / 7</div>
+      <div class="timer-badge" id="timer-badge">&#9201; <span id="timer-val">20</span>s</div>
+    </div>
+    <div class="q-emoji" id="q-emoji"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="next-btn-wrap" id="next-btn-wrap" style="display:none">
+      <button class="btn" id="next-btn" onclick="nextQuestion()">Volgende vraag &#8594;</button>
+    </div>
+  </div>
+
+  <!-- RESULTAAT -->
+  <div class="card screen" id="screen-results">
+    <div class="result-trophy" id="result-trophy">&#127942;</div>
+    <div class="result-rank" id="result-rank">VAARBEWIJS GEHAALD!</div>
+    <div class="result-name" id="result-name"></div>
+    <div class="score-grid">
+      <div class="score-cell"><span class="val" id="res-score">0</span><div class="lbl">Punten</div></div>
+      <div class="score-cell"><span class="val" id="res-correct">0/7</span><div class="lbl">Goed</div></div>
+      <div class="score-cell"><span class="val" id="res-time">0s</span><div class="lbl">Tijd</div></div>
+    </div>
+    <div class="nl-box" id="nl-box">
+      <h3>&#128236; Blijf op de hoogte!</h3>
+      <p>Schrijf je in voor de Aquaservice nieuwsbrief en mis nooit meer een aanbieding, evenement of seizoenstip.</p>
+      <div class="field" style="margin-bottom:10px"><input type="email" id="inp-email-nl" placeholder="jouw@email.nl"></div>
+      <button class="btn gold" onclick="subscribeNewsletter()">&#9993;&#65039; Ja, aanmelden voor nieuwsbrief</button>
+    </div>
+    <button class="btn" onclick="showScreen('screen-scoreboard');loadScoreboard()">&#128202; Bekijk het scorebord</button>
+    <button class="btn ghost" onclick="showScreen('screen-welcome')">&#8617; Terug naar start</button>
+  </div>
+
+  <!-- SCOREBORD -->
+  <div class="card screen" id="screen-scoreboard">
+    <div class="sb-title">&#127885; Scorebord</div>
+    <div class="sb-sub">Sleepbootdagen &mdash; Beste Kapiteins</div>
+    <div class="tab-row">
+      <button class="tab active" onclick="switchTab('top')" id="tab-top">&#127942; Top kapiteins</button>
+      <button class="tab" onclick="switchTab('recent')" id="tab-recent">&#128336; Recente scores</button>
+    </div>
+    <div id="sb-list"><div class="sb-empty"><span class="loading-dots">Laden</span></div></div>
+    <button class="btn ghost" style="margin-top:13px" onclick="loadScoreboard()">&#128260; Vernieuwen</button>
+    <button class="btn ghost" onclick="showScreen('screen-welcome')">&#8592; Terug naar quiz</button>
+  </div>
+
+  <!-- AL GESPEELD -->
+  <div class="card screen" id="screen-played">
+    <div class="confirm-icon">&#9875;</div>
+    <div class="confirm-title">Je hebt al meegedaan!</div>
+    <div class="confirm-text" id="played-msg">Per e-mailadres is slechts 1 deelname mogelijk.</div>
+    <button class="btn" onclick="showScreen('screen-scoreboard');loadScoreboard()">&#128202; Bekijk het scorebord</button>
+    <button class="btn ghost" onclick="showScreen('screen-welcome')">&#8592; Terug</button>
+  </div>
+
+  <!-- LADEN -->
+  <div class="card screen" id="screen-loading">
+    <div style="padding:38px 0;text-align:center">
+      <div class="spinner"></div>
+      <div style="color:rgba(255,255,255,.55);font-size:14px" id="loading-msg">Even checken...</div>
+    </div>
+  </div>
 </div>
-<div class="prog-wrap"><div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div></div>
-
-<div class="container">
-
-  <div class="step active" id="s1">
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/131b09-boot.jpg" onerror="this.style.display='none'">
-    <div class="eyebrow">REFIT CHECK</div>
-    <h1>Nieuw, maar dan beter.</h1>
-    <div class="rv-box">
-      <div class="rv-text">"Na de refit herkende ik mijn eigen schip niet meer terug. Wat een vakmanschap!"</div>
-      <span class="rv-auth">Hendrik J. &mdash; motorjacht &#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    </div>
-    <button class="btn" onclick="go(2)">Start mijn Refit Check &rarr;</button>
-  </div>
-
-  <div class="step" id="s2">
-    <button class="btn-back" onclick="go(1)">&larr; terug</button>
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/68395a-1.jpg" onerror="this.style.display='none'">
-    <h1>Wat voor boot heeft u?</h1>
-    <div class="og">
-      <button class="ob" onclick="sel(this,'type','Zeilboot',3)">&#9973; Zeilboot</button>
-      <button class="ob" onclick="sel(this,'type','Motorjacht',3)">&#128674; Motorjacht</button>
-      <button class="ob" onclick="sel(this,'type','Sloep / tender',3)">&#128741; Sloep / tender</button>
-    </div>
-  </div>
-
-  <div class="step" id="s3">
-    <button class="btn-back" onclick="go(2)">&larr; terug</button>
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/f7fe86-1.jpg" onerror="this.style.display='none'">
-    <h1>Hoe heet uw schip?</h1>
-    <input class="f" id="bootname" placeholder="Naam van de boot (optioneel)">
-    <div class="rv-box" style="margin-top:20px">
-      <div class="rv-text">"De passie voor watersport spat er vanaf bij het team van Aquaservice."</div>
-      <span class="rv-auth">Klaas B. &#9733;&#9733;&#9733;&#9733;&#9733;</span>
-    </div>
-    <button class="btn" onclick="go(4)">Volgende &rarr;</button>
-  </div>
-
-  <div class="step" id="s4">
-    <button class="btn-back" onclick="go(3)">&larr; terug</button>
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/085e78-1.jpg" onerror="this.style.display='none'">
-    <h1>Hoe oud is de boot?</h1>
-    <div class="og">
-      <button class="ob" onclick="sel(this,'bouwjaar_indicatie','Jonger dan 10 jaar',5)">&#10024; Jonger dan 10 jaar</button>
-      <button class="ob" onclick="sel(this,'bouwjaar_indicatie','Tussen 10 en 25 jaar',5)">&#9875; Tussen 10 en 25 jaar</button>
-      <button class="ob" onclick="sel(this,'bouwjaar_indicatie','Klassieker (25+ jaar)',5)">&#127963; Klassieker (25+ jaar)</button>
-    </div>
-  </div>
-
-  <div class="step" id="s5">
-    <button class="btn-back" onclick="go(4)">&larr; terug</button>
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/131b09-boot.jpg" onerror="this.style.display='none'">
-    <h1>Wat is de lengte?</h1>
-    <div class="og">
-      <button class="ob" onclick="sel(this,'lengte','Tot 8 meter',6)">Tot 8 meter</button>
-      <button class="ob" onclick="sel(this,'lengte','8 tot 12 meter',6)">8 tot 12 meter</button>
-      <button class="ob" onclick="sel(this,'lengte','12 meter+',6)">12 meter en langer</button>
-    </div>
-  </div>
-
-  <div class="step" id="s6">
-    <button class="btn-back" onclick="go(5)">&larr; terug</button>
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/87644b-img-5507.jpg" onerror="this.style.display='none'">
-    <h1>Kies de werkzaamheden:</h1>
-    <div class="og">
-      <button class="ob" onclick="tog(this,'Schilderwerk Romp',4500)">&#127912; Schilderwerk Romp</button>
-      <button class="ob" onclick="tog(this,'Schilderwerk Opbouw',4800)">&#128396; Schilderwerk Opbouw</button>
-      <button class="ob" onclick="tog(this,'Elektrische installatie',3200)">&#9889; Elektrische installatie</button>
-      <button class="ob" onclick="tog(this,'Motor en Techniek',5000)">&#9881; Motor &amp; Techniek</button>
-      <button class="ob" onclick="tog(this,'Teakdek of Flexiteek',6500)">&#129683; Teakdek / Flexiteek</button>
-      <button class="ob" onclick="tog(this,'Boegschroef',4500)">&#128260; Boegschroef</button>
-      <button class="ob" onclick="tog(this,'Hekschroef',4500)">&#128260; Hekschroef</button>
-      <button class="ob" onclick="tog(this,'Interieur en Stoffering',4200)">&#128715; Interieur &amp; Stoffering</button>
-      <button class="ob" onclick="tog(this,'Sanitair en Drinkwater',2800)">&#128703; Sanitair &amp; Drinkwater</button>
-      <button class="ob" onclick="tog(this,'Navigatie',3800)">&#128752; Navigatie</button>
-    </div>
-    <button class="btn" id="btn-cond" onclick="go(7)" disabled>Volgende stap &rarr;</button>
-  </div>
-
-  <div class="step" id="s7">
-    <button class="btn-back" onclick="go(6)">&larr; terug</button>
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/68395a-1.jpg" onerror="this.style.display='none'">
-    <h1>Foto van de boot</h1>
-    <p style="font-size:13px;color:var(--mu);margin-bottom:12px">Optioneel &mdash; onze specialisten kijken er alvast naar.</p>
-    <input type="file" id="ph-in" accept="image/*" style="display:none" onchange="handleFile(this)">
-    <div class="foto-drop" id="foto-drop" onclick="document.getElementById('ph-in').click()">
-      <div id="foto-inner">&#128247; Foto uploaden (optioneel)</div>
-      <img class="foto-prev" id="foto-prev" alt="Preview"/>
-    </div>
-    <div class="foto-status" id="foto-status"></div>
-    <div class="foto-uploading" id="foto-uploading">&#8987; Foto wordt opgeslagen...</div>
-    <button class="btn" style="margin-top:12px" onclick="go(8)">Naar gegevens &rarr;</button>
-    <button class="btn-back" style="display:block;width:100%;text-align:center;margin-top:8px" onclick="go(8)">Overslaan &mdash; geen foto</button>
-  </div>
-
-  <div class="step" id="s8">
-    <button class="btn-back" onclick="go(7)">&larr; terug</button>
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/131b09-boot.jpg" onerror="this.style.display='none'">
-    <h1>Uw gegevens</h1>
-    <input class="f" id="fname" placeholder="Uw naam *">
-    <input class="f" id="email" type="email" placeholder="E-mailadres *">
-    <input class="f" id="phone" type="tel" placeholder="Telefoonnummer">
-    <button class="btn" onclick="showResult()">Bereken indicatie &rarr;</button>
-  </div>
-
-  <div class="step" id="s-result">
-    <img class="q-img" src="https://aquaservice.nl/photos/popup/87644b-img-5507.jpg" onerror="this.style.display='none'">
-    <h1>Uw Indicatie</h1>
-    <div class="prijs-kaart">
-      <div id="spec-list"></div>
-      <div class="spec-totaal"><span>Totaal indicatie</span><span id="total-price">&euro; 0,-</span></div>
-    </div>
-    <div class="disclaimer">Deze indicatie is een schatting op basis van gemiddelden. De definitieve prijs wordt vastgesteld na een vrijblijvende inspectie door onze specialisten.</div>
-    <button class="btn" id="btn-contact" onclick="requestContact()">Vrijblijvend gesprek plannen</button>
-    <p style="text-align:center;margin-top:12px;font-size:13px"><a href="https://aquaservice.nl/referenties" target="_blank" style="color:var(--blauw);text-decoration:underline">Lees hier alle referenties</a></p>
-    <div class="bevestiging" id="bevestiging">&#10003; Bedankt, we nemen binnenkort contact met u op!</div>
-  </div>
-
-</div>
+<div id="toast"></div>
 
 <script>
-var st = {
-  type:'', bootname:'', bouwjaar_indicatie:'', lengte:'',
-  selectedItems:[], photoUrl:'', photoName:'',
-  voornaam:'', email:'', telefoon:'',
-  totaal_indicatie:'', contact_verzoek:'NEE',
-  session_id:'mbs-' + Date.now() + '-' + Math.random().toString(36).slice(2,6),
-  bron:'MBS Sneek 2025'
-};
+// ================================================================
+// SUPABASE CONFIG
+// Vervang de twee waarden hieronder met jouw eigen project-gegevens.
+// Tabel aanmaken in Supabase:
+//   CREATE TABLE kapitein_scores (
+//     id bigserial primary key,
+//     captain_name text,
+//     email text unique,
+//     score integer,
+//     correct_answers integer,
+//     total_time integer,
+//     newsletter boolean default false,
+//     created_at timestamptz default now()
+//   );
+// RLS: uitschakelen OF anon INSERT + SELECT toestaan
+// ================================================================
+const SB_URL = "https://JOUW_PROJECT_ID.supabase.co";
+const SB_KEY = "JOUW_ANON_KEY_HIER";
+const TABLE  = "kapitein_scores";
 
-var steps = ['s1','s2','s3','s4','s5','s6','s7','s8','s-result'];
-var WEBHOOK = 'https://n8n-aqs.vimdesk.io/webhook/164b60d5-48a0-4f2f-8202-4a47e4fd2bef';
-var SB_URL = 'https://heefuksdjeunqwgqdcoj.supabase.co';
-var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhlZWZ1a3NkamV1bnF3Z3FkY29qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUyMjE4ODYsImV4cCI6MjA5MDc5Nzg4Nn0.sfOw0ceENEBGVyLivbPWbZxvJtUu2axrVUAWM78f8S4';
-var SB_BUCKET = 'refit-fotos';
-
-function go(n) {
-  steps.forEach(function(id, i) {
-    var el = document.getElementById(id);
-    if (el) { el.classList.remove('active'); el.style.display = ''; }
-  });
-  var el = document.getElementById(steps[n-1]);
-  if (el) el.classList.add('active');
-  document.getElementById('prog-fill').style.width = (n / steps.length * 100) + '%';
-  window.scrollTo(0, 0);
-}
-
-function sel(btn, key, val, next) {
-  st[key] = val;
-  btn.closest('.og').querySelectorAll('.ob').forEach(function(b) { b.classList.remove('sel'); });
-  btn.classList.add('sel');
-  setTimeout(function() { go(next); }, 200);
-}
-
-function tog(btn, name, price) {
-  btn.classList.toggle('sel');
-  if (btn.classList.contains('sel')) {
-    st.selectedItems.push({name: name, basePrice: price});
-  } else {
-    st.selectedItems = st.selectedItems.filter(function(i) { return i.name !== name; });
+// ================================================================
+// QUIZ DATA
+// ================================================================
+const Q = [
+  {
+    emoji:"\u2693",
+    text:"Je nadert een sluis van bakboord. Hoe stuur je veilig de sluiskolk in?",
+    ans:["Rechtdoor doorkruisen en hopen op het beste","Stuurboord aanhouden en rustig insturen","Toeteren en gas geven — wie toetert heeft recht","Anker gooien en wachten op de sluismeester"],
+    correct:1, time:20,
+    explain:"\u2705 Stuurboord aanhouden is correct! In een sluis vaar je rechts langs de sluismuur — net als in het verkeer!"
+  },
+  {
+    emoji:"\uD83D\uDEA6",
+    text:"Welke lichten voert een motorboot verplicht 's nachts op het binnenwater?",
+    ans:["\u00E9\u00E9n witte lamp bovenaan de mast is genoeg","Toplicht + groen stuurboord + rood bakboord + wit heklicht","Alleen rood links en groen rechts, dat is genoeg","Schijnwerper op volle sterkte en rammen maar"],
+    correct:1, time:20,
+    explain:"\u2705 Juist! Toplicht (wit, 225\u00B0), zijlichten (groen stuurboord / rood bakboord) en een wit heklicht."
+  },
+  {
+    emoji:"\uD83C\uDF0A",
+    text:"Je ziet een gele boei met een X-opdruk. Wat betekent dit teken?",
+    ans:["Hier begraven piraten hun goud — niet ankeren!","Anker- en visverbod in dit gebied","Zwemzone: hier langzaam varen verplicht","Voorbij dit punt mag je 50 km/u varen"],
+    correct:2, time:20,
+    explain:"\u2705 Een gele boei met X staat voor een zwemzone — stapvoets varen en afstand houden van zwemmers!"
+  },
+  {
+    emoji:"\u26F5",
+    text:"Jouw motorboot ontmoet een zeilboot op kruiskoers. Wie heeft er voorrang?",
+    ans:["De motorboot — meer pk is meer rechten op het water","De zeilboot — motorboten wijken altijd uit voor zeilers","Degene die het eerst toetert heeft automatisch voorrang","Wie het grootst is heeft altijd voorrang"],
+    correct:1, time:20,
+    explain:"\u2705 Correct! Zeilboten hebben voorrang op motorvaartuigen — tenzij de zeiler ook motor gebruikt."
+  },
+  {
+    emoji:"\uD83D\uDCA8",
+    text:"Radio meldt: windkracht 7 op het IJsselmeer. Wat doe jij als ervaren kapitein?",
+    ans:["Gas bijgeven — bij wind ga je toch sneller!","Haven aanhouden: windkracht 7 is stormachtig gevaarlijk","Eerst een kopje koffie en dan beslissen","Uitvaren als je maar een goed regenjack aantrekt"],
+    correct:1, time:20,
+    explain:"\u2705 Windkracht 7 = stormachtige wind (50–61 km/u) met hoge golven. Veiligheid gaat altijd voor — blijf in de haven!"
+  },
+  {
+    emoji:"\uD83D\uDEDF",
+    text:"Wat staat er NIET verplicht aan boord voor het klein vaarbewijs op het binnenwater?",
+    ans:["Reddingsvesten voor alle opvarenden","Brandblusser bij een verbrandingsmotor","Een GPS-radarinstallatie","Een geluidsseingever (fluit of scheepshoorn)"],
+    correct:2, time:20,
+    explain:"\u2705 Radar is NIET verplicht voor het klein vaarbewijs! Reddingsvesten, brandblusser en geluidsseingever zijn dat w\u00E9l."
+  },
+  {
+    emoji:"\uD83D\uDDFA\uFE0F",
+    text:"Je vaart stroomafwaarts. Stroming: 4 km/u, motorsnelheid: 10 km/u. Wat is je werkelijke snelheid?",
+    ans:["6 km/u — je trekt de stroming eraf","14 km/u — stroomafwaarts tel je ze op","10 km/u — de motor bepaalt toch alles","40 km/u — je vermenigvuldigt altijd bij water"],
+    correct:1, time:20,
+    explain:"\u2705 Stroomafwaarts tel je op: 10 + 4 = 14 km/u. Stroomopwaarts trek je de stroming eraf. Handig voor aankomsttijden!"
   }
-  document.getElementById('btn-cond').disabled = (st.selectedItems.length === 0);
+];
+
+// ================================================================
+// STATE
+// ================================================================
+let S={captain:"",email:"",newsletter:false,currentQ:0,answers:[],times:[],totalScore:0,totalTime:0,timerInterval:null,questionStart:0,submitted:false};
+let currentTab="top";
+
+// ================================================================
+// SUPABASE
+// ================================================================
+async function sbReq(path,opts={}){
+  const r=await fetch(SB_URL+"/rest/v1/"+path,{...opts,headers:{"apikey":SB_KEY,"Authorization":"Bearer "+SB_KEY,"Content-Type":"application/json","Prefer":"return=representation",...(opts.headers||{})}});
+  const t=await r.text();
+  return{ok:r.ok,status:r.status,data:t?JSON.parse(t):null};
+}
+async function checkPlayed(email){
+  const{data}=await sbReq(`${TABLE}?email=eq.${encodeURIComponent(email.toLowerCase())}&select=captain_name,score,correct_answers,total_time`);
+  return data&&data.length>0?data[0]:null;
+}
+async function saveScore(p){return await sbReq(TABLE,{method:"POST",body:JSON.stringify(p)});}
+async function getTop(){const{data}=await sbReq(`${TABLE}?select=captain_name,score,correct_answers,total_time&order=score.desc,total_time.asc&limit=25`);return data||[];}
+async function getRecent(){const{data}=await sbReq(`${TABLE}?select=captain_name,score,correct_answers,total_time,created_at&order=created_at.desc&limit=25`);return data||[];}
+
+// ================================================================
+// SCORE
+// ================================================================
+function calcScore(correct,timeUsed,maxTime){
+  if(!correct)return 0;
+  return 100+Math.max(0,Math.round((maxTime-timeUsed)/maxTime*50));
 }
 
-function handleFile(inp) {
-  if (!inp.files || !inp.files[0]) return;
-  var file = inp.files[0];
-  if (file.size > 15 * 1024 * 1024) { alert('Foto is te groot (max 15MB).'); return; }
-  st.photoName = file.name;
+// ================================================================
+// UI
+// ================================================================
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2800);}
+function setLoading(msg){document.getElementById("loading-msg").textContent=msg;showScreen("screen-loading");}
 
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    // Preview tonen
-    var prev = document.getElementById('foto-prev');
-    var inner = document.getElementById('foto-inner');
-    var drop = document.getElementById('foto-drop');
-    prev.src = e.target.result;
-    prev.style.display = 'block';
-    inner.style.display = 'none';
-    drop.classList.add('has-p');
-
-    // Comprimeren en uploaden naar Supabase
-    var img = new Image();
-    img.onload = function() {
-      var maxW = 1400, maxH = 1050;
-      var w = img.width, h = img.height;
-      if (w > maxW || h > maxH) {
-        var ratio = Math.min(maxW/w, maxH/h);
-        w = Math.round(w * ratio); h = Math.round(h * ratio);
-      }
-      var canvas = document.createElement('canvas');
-      canvas.width = w; canvas.height = h;
-      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      canvas.toBlob(function(blob) {
-        var naam = st.session_id + '.jpg';
-        document.getElementById('foto-uploading').style.display = 'block';
-        fetch(SB_URL + '/storage/v1/object/' + SB_BUCKET + '/' + naam, {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'image/jpeg',
-            'x-upsert': 'true'
-          },
-          body: blob
-        }).then(function(r) {
-          document.getElementById('foto-uploading').style.display = 'none';
-          var status = document.getElementById('foto-status');
-          status.style.display = 'block';
-          if (r.ok) {
-            st.photoUrl = SB_URL + '/storage/v1/object/public/' + SB_BUCKET + '/' + naam;
-            status.textContent = '\u2713 Foto opgeslagen';
-            status.style.color = '#1D9E75';
-          } else {
-            status.textContent = '\u26a0 Upload mislukt \u2014 we gaan door zonder foto';
-            status.style.color = '#8a90b0';
-          }
-        }).catch(function() {
-          document.getElementById('foto-uploading').style.display = 'none';
-          var status = document.getElementById('foto-status');
-          status.style.display = 'block';
-          status.textContent = '\u26a0 Upload mislukt \u2014 we gaan door zonder foto';
-          status.style.color = '#8a90b0';
-        });
-      }, 'image/jpeg', 0.82);
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+// ================================================================
+// START
+// ================================================================
+async function startQuiz(){
+  const captain=document.getElementById("inp-captain").value.trim();
+  const email=document.getElementById("inp-email").value.trim();
+  const nl=document.getElementById("chk-nl").checked;
+  const terms=document.getElementById("chk-terms").checked;
+  let valid=true;
+  if(!email||!email.includes("@")||!email.includes(".")){document.getElementById("err-email").classList.add("show");document.getElementById("inp-email").classList.add("error");valid=false;}
+  else{document.getElementById("err-email").classList.remove("show");document.getElementById("inp-email").classList.remove("error");}
+  if(!terms){document.getElementById("err-terms").classList.add("show");valid=false;}
+  else{document.getElementById("err-terms").classList.remove("show");}
+  if(!valid)return;
+  setLoading("Even je kapiteinslicentie controleren...");
+  try{
+    const prev=await checkPlayed(email);
+    if(prev){
+      document.getElementById("played-msg").textContent=`${prev.captain_name||"Jij"} heeft al meegedaan en scoorde ${prev.score} punten (${prev.correct_answers}/7 goed in ${prev.total_time}s). Per e-mailadres is slechts 1 deelname toegestaan. Succes volgende keer! \uD83E\uDEE1`;
+      showScreen("screen-played");return;
+    }
+  }catch(e){console.warn("Supabase check mislukt",e);}
+  S={...S,captain:captain||"Anonieme Kapitein",email:email.toLowerCase(),newsletter:nl,currentQ:0,answers:[],times:[],totalScore:0,totalTime:0,submitted:false};
+  showQuestion(0);
 }
 
-function showResult() {
-  st.voornaam = document.getElementById('fname').value.trim();
-  st.email = document.getElementById('email').value.trim();
-  st.telefoon = document.getElementById('phone').value.trim();
-  st.bootname = document.getElementById('bootname').value.trim();
-
-  if (!st.voornaam || !st.email) { alert('Vul a.u.b. uw naam en e-mailadres in.'); return; }
-
-  var mult = st.lengte === '8 tot 12 meter' ? 1.75 : (st.lengte === '12 meter+' ? 2.9 : 1);
-  var totalMin = 0, totalMax = 0, html = '';
-
-  st.selectedItems.forEach(function(i) {
-    var pMin = Math.round((i.basePrice * mult) / 100) * 100;
-    var pMax = Math.round((i.basePrice * mult * 1.35) / 100) * 100;
-    i.prijs_indicatie = '\u20ac ' + pMin.toLocaleString('nl-NL') + ' - \u20ac ' + pMax.toLocaleString('nl-NL');
-    totalMin += pMin; totalMax += pMax;
-    html += '<div class="spec-item"><span>' + i.name + '</span><span class="spec-range">' + i.prijs_indicatie + '</span></div>';
+// ================================================================
+// QUESTION
+// ================================================================
+function showQuestion(idx){
+  const q=Q[idx];
+  showScreen("screen-question");
+  document.getElementById("progress-fill").style.width=(idx/Q.length*100)+"%";
+  document.getElementById("q-num-label").textContent=`Vraag ${idx+1} / ${Q.length}`;
+  document.getElementById("q-emoji").textContent=q.emoji;
+  document.getElementById("q-text").textContent=q.text;
+  const letters=["A","B","C","D"];
+  const wrap=document.getElementById("answers");wrap.innerHTML="";
+  q.ans.forEach((a,i)=>{
+    const btn=document.createElement("button");
+    btn.className="ans-btn";
+    btn.innerHTML=`<span class="ans-letter">${letters[i]}</span>${a}`;
+    btn.onclick=()=>selectAnswer(i);
+    wrap.appendChild(btn);
   });
+  document.getElementById("feedback").className="feedback";
+  document.getElementById("feedback").textContent="";
+  document.getElementById("next-btn-wrap").style.display="none";
+  clearInterval(S.timerInterval);
+  let tLeft=q.time;S.questionStart=Date.now();
+  updateTimer(tLeft);
+  S.timerInterval=setInterval(()=>{tLeft--;updateTimer(tLeft);if(tLeft<=0){clearInterval(S.timerInterval);timeOut();}},1000);
+}
+function updateTimer(t){document.getElementById("timer-val").textContent=t;document.getElementById("timer-badge").className=t<=5?"timer-badge danger":"timer-badge";}
+function timeOut(){
+  document.querySelectorAll(".ans-btn").forEach((b,i)=>{b.disabled=true;if(i===Q[S.currentQ].correct)b.classList.add("correct");});
+  S.answers.push(false);S.times.push(Q[S.currentQ].time);
+  showFeedback(false,0,Q[S.currentQ]);
+}
+function selectAnswer(idx){
+  clearInterval(S.timerInterval);
+  const q=Q[S.currentQ];
+  const timeUsed=(Date.now()-S.questionStart)/1000;
+  const correct=idx===q.correct;
+  document.querySelectorAll(".ans-btn").forEach((b,i)=>{b.disabled=true;if(i===q.correct)b.classList.add("correct");else if(i===idx&&!correct)b.classList.add("wrong");});
+  const pts=calcScore(correct,timeUsed,q.time);
+  S.totalScore+=pts;S.answers.push(correct);S.times.push(Math.round(timeUsed));
+  showFeedback(correct,pts,q);
+}
+function showFeedback(correct,pts,q){
+  const fb=document.getElementById("feedback");
+  fb.className="feedback show "+(correct?"correct":"wrong");
+  fb.textContent=correct?q.explain+(pts?` (+${pts} punten)`:""):"\u274C Helaas! "+q.explain;
+  document.getElementById("next-btn-wrap").style.display="block";
+  const isLast=S.currentQ>=Q.length-1;
+  document.getElementById("next-btn").textContent=isLast?"\uD83D\uDCCA Bekijk mijn score \u2192":"Volgende vraag \u2192";
+}
+function nextQuestion(){S.currentQ++;if(S.currentQ>=Q.length)finishQuiz();else showQuestion(S.currentQ);}
 
-  st.totaal_indicatie = '\u20ac ' + totalMin.toLocaleString('nl-NL') + ' - \u20ac ' + totalMax.toLocaleString('nl-NL');
-  go(9);
-  document.getElementById('spec-list').innerHTML = html;
-  document.getElementById('total-price').textContent = st.totaal_indicatie;
-
-  // Opslaan in Supabase + webhook naar n8n
-  saveLead();
-  sendWebhook('prijs_berekend');
+// ================================================================
+// FINISH
+// ================================================================
+async function finishQuiz(){
+  const totalTime=S.times.reduce((a,b)=>a+b,0);
+  const correctCount=S.answers.filter(Boolean).length;
+  S.totalTime=totalTime;
+  const rank=getRank(correctCount,S.totalScore);
+  document.getElementById("result-trophy").textContent=rank.trophy;
+  document.getElementById("result-rank").textContent=rank.label;
+  document.getElementById("result-name").textContent="Kapitein "+S.captain;
+  document.getElementById("res-score").textContent=S.totalScore;
+  document.getElementById("res-correct").textContent=`${correctCount}/7`;
+  document.getElementById("res-time").textContent=totalTime+"s";
+  document.getElementById("inp-email-nl").value=S.email;
+  if(S.newsletter)document.getElementById("nl-box").style.display="none";
+  showScreen("screen-results");
+  if(!S.submitted){
+    S.submitted=true;
+    try{await saveScore({captain_name:S.captain,email:S.email,score:S.totalScore,correct_answers:correctCount,total_time:totalTime,newsletter:S.newsletter});}
+    catch(e){console.warn("Score opslaan mislukt",e);}
+  }
+}
+function getRank(c,s){
+  if(c===7&&s>=800)return{trophy:"\uD83C\uDFC6",label:"ADMIRAAL \u2014 PERFECT VAARBEWIJS!"};
+  if(c===7)return{trophy:"\uD83E\uDD47",label:"OPPERKAPTEIN \u2014 ALLE VRAGEN GOED!"};
+  if(c>=6)return{trophy:"\uD83E\uDD48",label:"KAPITEIN \u2014 UITSTEKEND GEVAREN!"};
+  if(c>=5)return{trophy:"\uD83E\uDD49",label:"STUURMAN \u2014 GOED GEDAAN!"};
+  if(c>=3)return{trophy:"\u2693",label:"MATROOS \u2014 NOG WAT OEFENEN!"};
+  return{trophy:"\uD83E\uDD86",label:"DRIJVEND RUBBER EENDJE"};
 }
 
-function requestContact() {
-  st.contact_verzoek = 'JA';
-  document.getElementById('btn-contact').style.display = 'none';
-  document.getElementById('bevestiging').style.display = 'block';
-
-  // Update Supabase + webhook naar n8n
-  updateLead();
-  sendWebhook('contact_request');
+// ================================================================
+// NEWSLETTER
+// ================================================================
+async function subscribeNewsletter(){
+  const email=document.getElementById("inp-email-nl").value.trim();
+  if(!email||!email.includes("@")){toast("Vul een geldig e-mailadres in");return;}
+  try{await sbReq(`${TABLE}?email=eq.${encodeURIComponent(email.toLowerCase())}`,{method:"PATCH",body:JSON.stringify({newsletter:true})});}catch(e){}
+  document.getElementById("nl-box").innerHTML="<div style=\"text-align:center;padding:10px 0;font-size:24px\">\u2705</div><div style=\"text-align:center;font-weight:700;font-size:14px\">Ingeschreven! Welkom aan boord \uD83C\uDF89</div>";
+  toast("\u2705 Ingeschreven voor de nieuwsbrief!");
 }
 
-function saveLead() {
-  fetch(SB_URL + '/rest/v1/refit_leads', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({
-      session_id: st.session_id,
-      voornaam: st.voornaam,
-      email: st.email,
-      telefoon: st.telefoon || null,
-      boot_type: st.type,
-      boot_naam: st.bootname || null,
-      boot_leeftijd: st.bouwjaar_indicatie,
-      boot_lengte: st.lengte,
-      werkzaamheden: st.selectedItems.map(function(i){ return i.name; }).join(', '),
-      totaal_indicatie: st.totaal_indicatie,
-      foto_naam: st.photoName || null,
-      foto_url: st.photoUrl || null,
-      wil_gesprek: false,
-      bron: st.bron
-    })
-  }).then(function(r){
-    console.log(r.ok ? 'Lead opgeslagen in Supabase' : 'Supabase fout: ' + r.status);
-  }).catch(function(e){ console.log('Supabase fout:', e); });
+// ================================================================
+// SCOREBORD
+// ================================================================
+function switchTab(tab){
+  currentTab=tab;
+  document.getElementById("tab-top").className="tab"+(tab==="top"?" active":"");
+  document.getElementById("tab-recent").className="tab"+(tab==="recent"?" active":"");
+  loadScoreboard();
 }
-
-function updateLead() {
-  fetch(SB_URL + '/rest/v1/refit_leads?session_id=eq.' + st.session_id, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({ wil_gesprek: true })
-  }).then(function(r){
-    console.log(r.ok ? 'Lead bijgewerkt in Supabase' : 'Supabase update fout: ' + r.status);
-  }).catch(function(e){ console.log('Supabase update fout:', e); });
+async function loadScoreboard(){
+  document.getElementById("sb-list").innerHTML="<div class=\"sb-empty\"><span class=\"loading-dots\">Laden</span></div>";
+  try{const rows=currentTab==="top"?await getTop():await getRecent();renderSB(rows);}
+  catch(e){document.getElementById("sb-list").innerHTML="<div class=\"sb-empty\">Kon het scorebord niet laden. Controleer de Supabase-configuratie.</div>";}
 }
-
-function sendWebhook(event) {
-  fetch(WEBHOOK, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      event: event,
-      session_id: st.session_id,
-      bron: st.bron,
-      voornaam: st.voornaam,
-      email: st.email,
-      telefoon: st.telefoon || '-',
-      boot_type: st.type,
-      boot_naam: st.bootname || '-',
-      boot_leeftijd: st.bouwjaar_indicatie,
-      boot_lengte: st.lengte,
-      werkzaamheden: st.selectedItems.map(function(i) { return i.name; }).join(', '),
-      foto_url: st.photoUrl || '-',
-      totaal_indicatie: st.totaal_indicatie,
-      contact_verzoek: st.contact_verzoek,
-      timestamp: new Date().toISOString()
-    })
-  }).then(function(r) {
-    console.log(event + ' verstuurd naar n8n: ' + r.status);
-  }).catch(function(e) {
-    console.log('Webhook fout:', e);
-  });
+function renderSB(rows){
+  const wrap=document.getElementById("sb-list");
+  if(!rows||rows.length===0){wrap.innerHTML="<div class=\"sb-empty\">Nog geen kapiteins ingeschreven \u2014 wees de eerste! \uD83D\uDEA2</div>";return;}
+  const medals=["\uD83E\uDD47","\uD83E\uDD48","\uD83E\uDD49"];
+  const colors=["gold","silver","bronze"];
+  wrap.innerHTML=rows.map((r,i)=>{
+    const isMe=r.captain_name===S.captain&&S.captain;
+    const medal=currentTab==="top"&&i<3?medals[i]:"";
+    const rankColor=currentTab==="top"&&i<3?colors[i]:"";
+    return `<div class="sb-row${isMe?" highlight":""}"><div class="sb-rank ${rankColor}">${medal||(i+1)}</div><div class="sb-name">${esc(r.captain_name)}${isMe?" \uD83D\uDC48":""}</div><div class="sb-score-wrap"><div class="sb-score">${r.score} pts</div><div class="sb-time">${r.correct_answers}/7 goed \u00B7 ${r.total_time}s</div></div></div>`;
+  }).join("");
 }
+function esc(s){return(s||"").replace(/[&<>"']/g,c=({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
 </script>
 </body>
 </html>
