@@ -322,7 +322,7 @@ async function checkPlayed(email){
 }
 async function saveScore(p){return await sbReq(TABLE,{method:"POST",body:JSON.stringify(p)});}
 async function getTop(){const{data}=await sbReq(`${TABLE}?select=captain_name,score,correct_answers,total_time&order=score.desc,total_time.asc&limit=25`);return data||[];}
-async function getRecent(){const{data}=await sbReq(`${TABLE}?select=captain_name,score,correct_answers,total_time,created_at&order=created_at.desc&limit=25`);return data||[];}
+async function getRecent(){const{data}=await sbReq(`${TABLE}?select=captain_name,score,correct_answers,total_time&order=created_at.desc&limit=25`);return data||[];}
 
 // ================================================================
 // SCORE
