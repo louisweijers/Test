@@ -22,7 +22,7 @@ body{font-family:"Maven Pro",sans-serif;background:var(--navy-d);min-height:100v
 .screen{display:none;}.screen.active{display:block;animation:fadeUp .4s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .ship-icon{font-size:68px;text-align:center;margin-bottom:6px;animation:rock 3s ease-in-out infinite;}
-@keyframes rock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes rock{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 .welcome-title{font-size:25px;font-weight:900;text-align:center;line-height:1.25;margin-bottom:8px;}
 .welcome-title .hi{color:var(--gold);}
 .welcome-sub{text-align:center;color:rgba(255,255,255,.6);font-size:14px;margin-bottom:20px;line-height:1.55;}
@@ -126,16 +126,25 @@ body{font-family:"Maven Pro",sans-serif;background:var(--navy-d);min-height:100v
       <div class="prize-icon">&#127942;</div>
       <div>
         <div class="prize-label">Te winnen prijs</div>
-        <div class="prize-val">Watersport voucher t.w.v. €100,-</div>
+        <div class="prize-val">Watersport voucher t.w.v. &#8364;€100,-</div>
         <div class="prize-sub">De snelste kapitein met de meeste punten wint!</div>
       </div>
     </div>
-    <ul class="rules">
+    <div style="text-align:center;margin-bottom:16px;animation:bounce 1.5s ease-in-out infinite;">
+  <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:4px;">Scroll omlaag om mee te doen</div>
+  <div style="font-size:22px;">&#8595;</div>
+</div>
+<style>@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}</style>
+<ul class="rules">
       <li>7 ludieke vragen over het vaarbewijs &amp; de vaart</li>
       <li>Hoe sneller je antwoordt, hoe meer punten je scoort</li>
       <li>Per e-mailadres slechts 1 deelname mogelijk</li>
       <li>Winnaar wordt na de Sleepbootdagen bekendgemaakt</li>
     </ul>
+    <div style="text-align:center;margin:10px 0 18px;animation:bounce 1.5s ease-in-out infinite;">
+      <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:4px;">Vul hieronder in</div>
+      <div style="font-size:20px;color:rgba(255,255,255,0.4);">&#8964;</div>
+    </div>
     <div class="field">
       <label>Jouw kapiteinnaam &#127894;</label>
       <input type="text" id="inp-captain" placeholder="Bv. Kapitein Janssen" maxlength="30">
@@ -147,7 +156,7 @@ body{font-family:"Maven Pro",sans-serif;background:var(--navy-d);min-height:100v
     </div>
     <label class="check-row">
       <input type="checkbox" id="chk-nl">
-      <span>Ja, ik wil de Aquaservice nieuwsbrief ontvangen met tips, aanbiedingen en watersportnieuws &#128692;</span>
+      <span>Ja, ik wil de Aquaservice nieuwsbrief ontvangen met tips, aanbiedingen en watersportnieuws &#128692; <strong style="color:var(--gold)">+25 bonuspunten!</strong></span>
     </label>
     <label class="check-row">
       <input type="checkbox" id="chk-terms">
@@ -361,7 +370,7 @@ async function startQuiz(){
       showScreen("screen-played");return;
     }
   }catch(e){console.warn("Supabase check mislukt",e);}
-  S={...S,captain:captain||"Anonieme Kapitein",email:email.toLowerCase(),newsletter:nl,currentQ:0,answers:[],times:[],totalScore:0,totalTime:0,submitted:false};
+  S={...S,captain:captain||"Anonieme Kapitein",email:email.toLowerCase(),newsletter:nl,nlBonus:nl?25:0,currentQ:0,answers:[],times:[],totalScore:nl?25:0,totalTime:0,submitted:false};
   showQuestion(0);
 }
 
@@ -377,10 +386,16 @@ function showQuestion(idx){
   document.getElementById("q-text").textContent=q.text;
   const letters=["A","B","C","D"];
   const wrap=document.getElementById("answers");wrap.innerHTML="";
-  q.ans.forEach((a,i)=>{
+  // Schud de antwoorden door elkaar maar onthoud de nieuwe positie van het goede antwoord
+  const indices=[0,1,2,3];
+  for(let i=indices.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[indices[i],indices[j]]=[indices[j],indices[i]];}
+  const shuffled=indices.map(i=>({text:q.ans[i],origIdx:i}));
+  const newCorrect=shuffled.findIndex(a=>a.origIdx===q.correct);
+  q._shuffledCorrect=newCorrect;
+  shuffled.forEach((a,i)=>{
     const btn=document.createElement("button");
     btn.className="ans-btn";
-    btn.innerHTML=`<span class="ans-letter">${letters[i]}</span>${a}`;
+    btn.innerHTML=`<span class="ans-letter">${letters[i]}</span>${a.text}`;
     btn.onclick=()=>selectAnswer(i);
     wrap.appendChild(btn);
   });
@@ -394,7 +409,7 @@ function showQuestion(idx){
 }
 function updateTimer(t){document.getElementById("timer-val").textContent=t;document.getElementById("timer-badge").className=t<=5?"timer-badge danger":"timer-badge";}
 function timeOut(){
-  document.querySelectorAll(".ans-btn").forEach((b,i)=>{b.disabled=true;if(i===Q[S.currentQ].correct)b.classList.add("correct");});
+  const _c=Q[S.currentQ]._shuffledCorrect!==undefined?Q[S.currentQ]._shuffledCorrect:Q[S.currentQ].correct;document.querySelectorAll(".ans-btn").forEach((b,i)=>{b.disabled=true;if(i===_c)b.classList.add("correct");});
   S.answers.push(false);S.times.push(Q[S.currentQ].time);
   showFeedback(false,0,Q[S.currentQ]);
 }
@@ -402,8 +417,8 @@ function selectAnswer(idx){
   clearInterval(S.timerInterval);
   const q=Q[S.currentQ];
   const timeUsed=(Date.now()-S.questionStart)/1000;
-  const correct=idx===q.correct;
-  document.querySelectorAll(".ans-btn").forEach((b,i)=>{b.disabled=true;if(i===q.correct)b.classList.add("correct");else if(i===idx&&!correct)b.classList.add("wrong");});
+  const correct=idx===(q._shuffledCorrect!==undefined?q._shuffledCorrect:q.correct);
+  const _qc=q._shuffledCorrect!==undefined?q._shuffledCorrect:q.correct;document.querySelectorAll(".ans-btn").forEach((b,i)=>{b.disabled=true;if(i===_qc)b.classList.add("correct");else if(i===idx&&!correct)b.classList.add("wrong");});
   const pts=calcScore(correct,timeUsed,q.time);
   S.totalScore+=pts;S.answers.push(correct);S.times.push(Math.round(timeUsed));
   showFeedback(correct,pts,q);
@@ -429,11 +444,11 @@ async function finishQuiz(){
   document.getElementById("result-trophy").textContent=rank.trophy;
   document.getElementById("result-rank").textContent=rank.label;
   document.getElementById("result-name").textContent="Kapitein "+S.captain;
-  document.getElementById("res-score").textContent=S.totalScore;
+  document.getElementById("res-score").textContent=S.totalScore;if(S.nlBonus>0){document.getElementById("res-score").insertAdjacentHTML("afterend","<div style=\"font-size:11px;color:var(--gold);margin-top:3px\">incl. +25 nieuwsbrief bonus</div>");}
   document.getElementById("res-correct").textContent=`${correctCount}/7`;
   document.getElementById("res-time").textContent=totalTime+"s";
   document.getElementById("inp-email-nl").value=S.email;
-  if(S.newsletter)document.getElementById("nl-box").style.display="none";
+  document.getElementById("nl-box").style.display="none";
   showScreen("screen-results");
   if(!S.submitted){
     S.submitted=true;
