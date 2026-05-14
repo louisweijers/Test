@@ -321,12 +321,12 @@ async function sbReq(path,opts={}){
   return{ok:r.ok,status:r.status,data:t?JSON.parse(t):null};
 }
 async function checkPlayed(email){
-  const{data}=await sbReq(`${TABLE}?email=eq.${encodeURIComponent(email.toLowerCase())}&select=captain_name,score,correct_answers,total_time`);
+  const{data}=await sbReq(`kapitein_emails?email=eq.${encodeURIComponent(email.toLowerCase())}&select=email`);
   return data&&data.length>0?data[0]:null;
 }
 async function saveScore(p){return await sbReq(TABLE,{method:"POST",body:JSON.stringify(p)});}
-async function getTop(){const{data}=await sbReq(`${TABLE}?select=captain_name,score,correct_answers,total_time&order=score.desc,total_time.asc&limit=25`);return data||[];}
-async function getRecent(){const{data}=await sbReq(`${TABLE}?select=captain_name,score,correct_answers,total_time&order=created_at.desc&limit=25`);return data||[];}
+async function getTop(){const{data}=await sbReq(`kapitein_scores_public?select=captain_name,score,correct_answers,total_time&order=score.desc,total_time.asc&limit=25`);return data||[];}
+async function getRecent(){const{data}=await sbReq(`kapitein_scores_public?select=captain_name,score,correct_answers,total_time&order=created_at.desc&limit=25`);return data||[];}
 
 // ================================================================
 // SCORE
